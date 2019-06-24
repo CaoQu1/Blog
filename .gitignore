@@ -1,0 +1,5 @@
+obj
+bin
+/CnBlog.Infrastructure/obj
+/CnBlog.Web/bin
+/CnBlog.Web/obj
