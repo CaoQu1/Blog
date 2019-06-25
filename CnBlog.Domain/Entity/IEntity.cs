@@ -11,21 +11,6 @@ namespace CnBlog.Domain
         T Id { get; set; }
     }
 
-    /// <summary>
-    /// 领域实体
-    /// </summary>
-    public interface IEntity : IEntity<int>
-    {
-    }
-
-    /// <summary>
-    /// 创建时间
-    /// </summary>
-    public interface ICreateEntity : IEntity
-    {
-        DateTime CreateTime { get; set; }
-    }
-
     public interface ICreateEntity<T> : IEntity<T> where T : struct
     {
         DateTime CreateTime { get; set; }
@@ -48,11 +33,6 @@ namespace CnBlog.Domain
     {
         [ForeignKey("CreateUserId")]
         U CreateUser { get; set; }
-    }
-
-
-    public interface ICreateUserEntity : ICreateUserEntity<int, Guid>
-    {
     }
 
     /// <summary>
@@ -84,20 +64,18 @@ namespace CnBlog.Domain
         U UpdateUser { get; set; }
     }
 
-    public interface IModlfyEntity : IEntity
-    {
-        DateTime UpdateTime { get; set; }
-    }
-
-    public interface IModlfyUserEntity : IModlfyUserEntity<int, Guid>
-    {
-    }
-
     /// <summary>
     /// 全实体
     /// </summary>
-    public interface IFullEntity<U> : IModlfyUserEntity<int, Guid, U>
+    public interface IFullEntity<U> : IFullEntity<int, Guid, U>
         where U : class
+    {
+
+    }
+
+    public interface IFullEntity<T, F> : IModlfyUserEntity<T, F>
+        where T : struct
+        where F : struct
     {
 
     }
@@ -114,7 +92,7 @@ namespace CnBlog.Domain
     /// <summary>
     /// 聚合根
     /// </summary>
-    public interface IAggregateRoot : IEntity
+    public interface IAggregateRoot : IEntity<int>
     {
 
     }

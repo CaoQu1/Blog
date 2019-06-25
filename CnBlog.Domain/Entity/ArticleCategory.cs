@@ -6,8 +6,12 @@ using System.Text;
 namespace CnBlog.Domain
 {
     [Table("ArticleCategories")]
-    public class ArticleCategory : BaseEntity
+    public class ArticleCategory : BaseFullEntity
     {
-        public string 
+        public string CategoryName { get; set; }
+
+        public string CategoryNo { get; set; }
+
+        public string Remark { get; set; }
     }
 }

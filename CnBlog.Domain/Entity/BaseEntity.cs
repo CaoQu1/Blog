@@ -10,7 +10,7 @@ namespace CnBlog.Domain
     /// <summary>
     /// 实体基类
     /// </summary>
-    public class BaseEntity : IEntity
+    public class BaseEntity : IEntity<int>
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public virtual int Id { get; set; }
@@ -25,22 +25,33 @@ namespace CnBlog.Domain
     /// <summary>
     /// 全实体基类
     /// </summary>
-    public class BaseFullEntity : BaseEntity, IFullEntity
+    public class BaseFullEntity : BaseEntity, IFullEntity<SystemUser>
     {
-        public virtual Guid CreateUser { get; set; }
-        public virtual Guid UpdateUser { get; set; }
+        public virtual Guid CreateUserId { get; set; }
+        public virtual Guid UpdateUserId { get; set; }
         public virtual DateTime CreateTime { get; set; }
         public virtual DateTime UpdateTime { get; set; }
+        [ForeignKey("UpdateUserId")]
+        public SystemUser UpdateUser { get; set; }
+        [ForeignKey("CreateUserId")]
+        public SystemUser CreateUser { get; set; }
     }
 
 
 
 
-    public class BaseFullEntity<T> : BaseEntity<T>, IFullEntity<T> where T : struct
+    public class BaseFullEntity<T, F, U> : BaseEntity<T>, IFullEntity<T, F, U>
+        where T : struct
+        where U : class
+        where F : struct
     {
-        public virtual Guid CreateUser { get; set; }
-        public virtual Guid UpdateUser { get; set; }
+        public virtual F CreateUserId { get; set; }
+        public virtual F UpdateUserId { get; set; }
         public virtual DateTime CreateTime { get; set; }
         public virtual DateTime UpdateTime { get; set; }
+        [ForeignKey("UpdateUserId")]
+        public U UpdateUser { get; set; }
+        [ForeignKey("CreateUserId")]
+        public U CreateUser { get; set; }
     }
 }
