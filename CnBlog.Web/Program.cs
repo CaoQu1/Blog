@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using CnBlog.Infrastructure.Repositories;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -14,7 +15,7 @@ namespace CnBlog.Web
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            CreateWebHostBuilder(args).Build().DataBaseInit<BlogContext>((context, services) => WebHostExtsion.UserInit(context, services)).Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

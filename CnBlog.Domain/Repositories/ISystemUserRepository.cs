@@ -8,5 +8,7 @@ namespace CnBlog.Domain
     public interface ISystemUserRepository : IRepository<SystemUser, Guid>
     {
         List<UserArticle> GetUserArticle(Guid userGuid);
+
+        void Init(List<SystemUser> systemUsers);
     }
 }

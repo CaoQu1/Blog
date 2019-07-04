@@ -1,14 +1,22 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using CnBlog.Application;
+using CnBlog.Common;
+using CnBlog.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 
 namespace CnBlog.Web
 {
@@ -30,8 +38,14 @@ namespace CnBlog.Web
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.TryAddSingleton(typeof(TraceSource), service => new TraceSource("error", SourceLevels.Information));
+            SystemUserService.Init(services, Configuration);
+            var serviceProvider = services.BuildServiceProvider();
+            CAppContext.ServiceProvider = serviceProvider;
+            CAppContext.Configuration = Configuration;
 
-
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -52,7 +66,7 @@ namespace CnBlog.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseMapper();
             app.UseMvc();
         }
     }
