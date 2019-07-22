@@ -15,7 +15,7 @@ namespace CnBlog.Web
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().DataBaseInit<BlogContext>((context, services) => WebHostExtsion.UserInit(context, services)).Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -47,6 +48,10 @@ namespace CnBlog.Web
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.Configure<RazorViewEngineOptions>(option =>
+            {
+                option.ViewLocationExpanders.Add(new CustomViewLocationExpander());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,7 +72,10 @@ namespace CnBlog.Web
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseMapper();
-            app.UseMvc();
+            app.UseRouter(router =>
+            {
+                router.MapRoute(name: "default", template: "WebUI/{controller:User}/{action:Index}/{id?}");
+            });
         }
     }
 }

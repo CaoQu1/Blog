@@ -1,5 +1,6 @@
 ﻿using CnBlog.Common;
 using CnBlog.Domain;
+using CnBlog.Domain.Model;
 using CnBlog.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -39,5 +40,9 @@ namespace CnBlog.Application
             this._systemUserRepository = systemUserRepository;
         }
 
+        public IList<UserArticle> GetUserArticles(Guid userGuid)
+        {
+            return this._systemUserRepository.GetUserArticle(userGuid);
+        }
     }
 }
