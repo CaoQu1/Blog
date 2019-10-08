@@ -13,6 +13,10 @@ namespace CnBlog.Infrastructure.Repositories
 
         }
 
+        public BlogContext(DbContextOptions contextOptions) : base(contextOptions)
+        {
+        }
+
         public DbSet<SystemUser> SystemUsers { get; set; }
 
         public DbSet<Article> Articles { get; set; }

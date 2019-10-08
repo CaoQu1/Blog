@@ -94,7 +94,7 @@ namespace CnBlog.Web
             foreach (var item in allType)
             {
                 var type = item.AsType();
-                if (type.Equals(typeof(IProfile)))
+                if (!type.IsInterface && !type.IsAbstract && typeof(IProfile).IsAssignableFrom(type))
                 {
                     mapperConfigurationExpression.AddProfile(type);
                 }

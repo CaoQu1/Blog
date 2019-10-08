@@ -72,9 +72,9 @@ namespace CnBlog.Web
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseMapper();
-            app.UseRouter(router =>
+            app.UseMvc(router =>
             {
-                router.MapRoute(name: "default", template: "WebUI/{controller:User}/{action:Index}/{id?}");
+                router.MapRoute(name: "default", template: "WebUI/{controller=User}/{action=Index}/{id?}");
             });
         }
     }
